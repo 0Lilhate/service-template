@@ -17,8 +17,6 @@ spring:
       ddl-auto: validate
     properties:
       hibernate.jdbc.time_zone: Europe/Moscow
-  liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.yaml
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
     consumer:

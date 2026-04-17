@@ -4,7 +4,17 @@ plugins {
 
 dependencies {
     implementation(project(":service-api"))
-    runtimeOnly(project(":service-db"))
+
+    // Intentionally NO dependency on :service-db.
+    // Migrations are applied by the Liquibase Gradle plugin in service-db
+    // as a pre-deploy step (CI) or manually by developers. The app never
+    // touches DDL at startup — this is an enterprise pattern:
+    //   * the app runs with a low-privilege DB user (no DDL grants)
+    //   * rolling deploys don't race on schema changes
+    //   * migrations are decoupled from app lifecycle
+    //
+    // To apply migrations:
+    //   ./gradlew :service-db:update
 
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.validation)

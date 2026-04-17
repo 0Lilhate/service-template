@@ -70,7 +70,16 @@ CI / staging / prod override:
 
 For per-developer overrides without touching the committed file: copy `liquibase.properties` → `liquibase.local.properties` (gitignored) and pass `-PliquibaseDefaultsFile=...` if you want a different path.
 
-Migrations also run automatically on application startup via Spring Boot's Liquibase autoconfiguration (same changelog file) — the Gradle plugin is for the cases when you want to manage DB state independently from the app (pre-deploy step in CI, local dev, rollback).
+**Migrations do NOT run at application startup.** The `service-app` module has no dependency on Liquibase by design — schema management is fully decoupled from the app lifecycle. Reasons:
+
+* the app runs with a low-privilege DB user (no DDL grants in prod)
+* rolling deployments don't race on schema changes
+* failed migrations don't crash-loop the app
+
+Workflow:
+1. CI/CD runs `./gradlew :service-db:update` as a **pre-deploy** step
+2. Only then the new app version is deployed
+3. Locally: run `./gradlew :service-db:update` before first `bootRun`
 
 ## Bootstrap a new service from this template (15–30 min checklist)
 
