@@ -1,0 +1,12 @@
+type: object
+required: [code, message]
+properties:
+  code:
+    type: string
+    example: VALIDATION_ERROR
+  message:
+    type: string
+    example: Invalid request
+  traceId:
+    type: string
+    description: Correlation id for log/trace lookup.

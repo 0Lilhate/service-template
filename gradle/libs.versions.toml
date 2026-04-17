@@ -1,0 +1,49 @@
+[versions]
+java = "21"
+springBoot = "3.3.5"
+springDependencyManagement = "1.1.6"
+liquibaseGradlePlugin = "2.2.2"
+picocli = "4.7.6"
+snakeyaml = "2.3"
+openapiGenerator = "7.9.0"
+springdoc = "2.6.0"
+jackson = "2.17.2"
+liquibase = "4.29.2"
+postgresql = "42.7.4"
+testcontainers = "1.20.3"
+
+[libraries]
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-kafka = { module = "org.springframework.kafka:spring-kafka" }
+spring-kafka-test = { module = "org.springframework.kafka:spring-kafka-test" }
+
+springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
+jackson-databind-nullable = { module = "org.openapitools:jackson-databind-nullable", version = "0.2.6" }
+
+jakarta-validation-api = { module = "jakarta.validation:jakarta.validation-api" }
+jakarta-annotation-api = { module = "jakarta.annotation:jakarta.annotation-api" }
+jakarta-servlet-api = { module = "jakarta.servlet:jakarta.servlet-api" }
+swagger-annotations = { module = "io.swagger.core.v3:swagger-annotations-jakarta", version = "2.2.25" }
+
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
+picocli = { module = "info.picocli:picocli", version.ref = "picocli" }
+snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
+
+micrometer-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
+
+testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
+testcontainers-junit = { module = "org.testcontainers:junit-jupiter" }
+testcontainers-postgres = { module = "org.testcontainers:postgresql" }
+testcontainers-kafka = { module = "org.testcontainers:kafka" }
+
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
+openapi-generator = { id = "org.openapi.generator", version.ref = "openapiGenerator" }
+liquibase-gradle = { id = "org.liquibase.gradle", version.ref = "liquibaseGradlePlugin" }

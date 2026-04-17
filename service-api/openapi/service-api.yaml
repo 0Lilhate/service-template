@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: Service Template API
+  description: |
+    Root OpenAPI contract. Paths and schemas are split into separate files
+    under `paths/` and `components/` and referenced via `$ref`.
+    The OpenAPI Generator resolves all refs during build — the output is a
+    single unified API surface under `com.example.service.api.*`.
+  version: 0.1.0
+servers:
+  - url: http://localhost:8080
+    description: Local
+
+tags:
+  - name: ping
+    description: Placeholder tag. Replace with real domain tags.
+
+paths:
+  /api/v1/ping:
+    $ref: './paths/ping.yaml#/Ping'
+
+components:
+  schemas:
+    PingResponse:
+      $ref: './components/schemas/PingResponse.yaml'
+    ErrorResponse:
+      $ref: './components/schemas/ErrorResponse.yaml'

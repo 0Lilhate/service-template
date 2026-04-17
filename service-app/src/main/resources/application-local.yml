@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/service_template
+    username: postgres
+    password: postgres
+
+logging:
+  level:
+    root: INFO
+    com.example.service: DEBUG
+
+app:
+  kafka:
+    enabled: false

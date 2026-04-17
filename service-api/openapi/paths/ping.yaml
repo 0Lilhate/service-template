@@ -1,0 +1,18 @@
+Ping:
+  get:
+    tags: [ping]
+    operationId: ping
+    summary: Placeholder endpoint — replace when bootstrapping a new service.
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/PingResponse.yaml'
+      default:
+        description: Error
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/ErrorResponse.yaml'
