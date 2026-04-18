@@ -17,6 +17,7 @@ spring:
       ddl-auto: validate
     properties:
       hibernate.jdbc.time_zone: Europe/Moscow
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
     consumer:
