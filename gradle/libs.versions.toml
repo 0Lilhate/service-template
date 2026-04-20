@@ -11,6 +11,7 @@ jackson = "2.17.2"
 liquibase = "4.29.2"
 postgresql = "42.7.4"
 testcontainers = "1.20.3"
+checkstyle = "10.18.2"
 
 [libraries]
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
