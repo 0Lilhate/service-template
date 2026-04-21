@@ -134,6 +134,22 @@ If you never use Kafka: leave the toggle off. Autoconfiguration still runs produ
 | `config/KafkaConfig.java` | Empty marker class (`@EnableKafka` + toggle) | Keep, or delete if service never uses Kafka |
 | `application-local.yml` | Local profile overrides | Keep / adjust |
 
+## Documentation (`docs/`)
+
+| Файл | Критичность | Обязателен на старте | Когда заполнять | Что внутри |
+|---|---|---|---|---|
+| `docs/tech.md` | high | да | сразу | Runtime-стек, порты, ENV-переменные, команды запуска, зависимости на инфраструктуру |
+| `docs/arh.md` | high | да | сразу | Схема модулей, поток запроса, точки интеграции, место Kafka в архитектуре |
+| `docs/plan.md` | medium | нет | позже | Фазы разработки, критерии входа/выхода из фазы, зависимости между этапами |
+| `docs/tasks.md` | medium | нет | позже | Список задач с ID, статусом, ответственным, приоритетом; ссылки на фазы |
+| `docs/acceptance-checklist.md` | high | да | сразу | Функциональные, нефункциональные, security, observability и миграционные критерии готовности к проду |
+| `docs/review-checklist.md` | medium | да | сразу | Правила PR: безопасность миграций, дельта OpenAPI, требования к тестам, запрет секретов в коде |
+| `docs/handoff-checklist.md` | low | нет | по необходимости | Доступы к репо/CI/DB/Kafka, владелец алертинга, расположение runbook, известные проблемы |
+| `docs/glossary.md` | medium | нет | по необходимости | Термины домена → имена в коде/OpenAPI; неочевидные аббревиатуры |
+| `docs/adr/001-module-boundaries.md` | high | да | сразу | Почему split `api/app/db`; почему нет `common`; что в каком модуле живёт |
+| `docs/adr/002-db-migrations-liquibase.md` | high | да | сразу | Почему Liquibase, а не Flyway; почему миграции не запускаются при старте приложения |
+| `docs/adr/003-api-contract-source-of-truth.md` | high | да | сразу | Почему contract-first; OpenAPI → генератор → delegate; сгенерированный код не редактируется вручную |
+
 ## Decisions & trade-offs
 
 1. **No `-common` module.** Shared types that are generated already live in `-api`. If two modules ever need non-generated shared code, create it then — not preemptively.
