@@ -16,6 +16,7 @@ allprojects {
 subprojects {
     apply(plugin = "java")
     apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "checkstyle")
 
     // `libs` type-safe accessor is not visible inside subprojects { },
     // so read the catalog via the VersionCatalogsExtension.
@@ -48,6 +49,36 @@ subprojects {
         useJUnitPlatform()
         testLogging {
             events("passed", "failed", "skipped")
+        }
+    }
+
+    plugins.withId("checkstyle") {
+        extensions.configure<CheckstyleExtension> {
+            toolVersion = ver("checkstyle")
+            config = resources.text.fromFile(rootProject.file("checkstyle.xml"))
+            configProperties["basedir"] = rootProject.projectDir.absolutePath
+            isShowViolations = true
+            maxWarnings = 0
+        }
+
+        tasks.withType<Checkstyle>().configureEach {
+            include("**/*.java")
+            classpath = files()
+            reports {
+                xml.required.set(false)
+                html.required.set(true)
+            }
+        }
+
+        tasks.named<Checkstyle>("checkstyleMain") {
+            setSource("src/main/java")
+        }
+        tasks.named<Checkstyle>("checkstyleTest") {
+            setSource("src/test/java")
+        }
+
+        tasks.named("check") {
+            dependsOn(tasks.withType<Checkstyle>())
         }
     }
 }
