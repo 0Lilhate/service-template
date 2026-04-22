@@ -18,8 +18,6 @@ subprojects {
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "checkstyle")
 
-    // `libs` type-safe accessor is not visible inside subprojects { },
-    // so read the catalog via the VersionCatalogsExtension.
     val catalog = rootProject.extensions
         .getByType(VersionCatalogsExtension::class.java)
         .named("libs")

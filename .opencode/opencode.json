@@ -1,0 +1,186 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "alfagen/Hackathon-2026",
+  "small_model": "alfagen/Hackathon-2026",
+  "default_agent": "build",
+  "instructions": [
+    "../AGENTS.md",
+    "skills/springboot-tdd/SKILL.md",
+    "skills/springboot-verification/SKILL.md",
+    "skills/api-design/SKILL.md",
+    "skills/springboot-patterns/SKILL.md",
+    "skills/jpa-patterns/SKILL.md",
+    "skills/database-migrations/SKILL.md",
+    "skills/springboot-security/SKILL.md"
+  ],
+  "agent": {
+    "build": {
+      "description": "Primary coding agent for development work",
+      "mode": "primary",
+      "model": "alfagen/Hackathon-2026",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true,
+        "read": true,
+        "changed-files": true
+      }
+    },
+    "docs-lookup": {
+      "description": "When the user asks how to use a library, framework, or API or needs up-to-date code examples, use Context7 MCP to fetch current documentation and return answers with examples. Invoke for docs/API/setup questions.",
+      "mode": "primary",
+      "model": "alfagen/Hackathon-2026",
+      "tools": {
+        "read": true,
+        "bash": false,
+        "write": false,
+        "edit": false
+      },
+      "prompt": "{file:prompts/agents/docs-lookup.txt}"
+    },
+    "java-build-resolver": {
+      "description": "Java/Gradle build, compilation, and dependency error resolution specialist. Fixes build errors, Java compiler errors, and Gradle (Kotlin DSL) issues with minimal changes. Use when Java or Spring Boot builds fail.",
+      "mode": "primary",
+      "model": "alfagen/Hackathon-2026",
+      "tools": {
+        "read": true,
+        "bash": true,
+        "write": true,
+        "edit": true
+      },
+      "prompt": "{file:prompts/agents/java-build-resolver.txt}"
+    },
+    "java-reviewer": {
+      "description": "Expert Java and Spring Boot code reviewer specializing in layered architecture, JPA patterns, security, and concurrency. Use for all Java code changes. MUST BE USED for Spring Boot projects.",
+      "mode": "primary",
+      "model": "alfagen/Hackathon-2026",
+      "tools": {
+        "read": true,
+        "bash": true,
+        "write": false,
+        "edit": false
+      },
+      "prompt": "{file:prompts/agents/java-reviewer.txt}"
+    },
+    "migration-reviewer": {
+      "description": "Database migration safety reviewer for Flyway/Liquibase against PostgreSQL. Classifies each migration as SAFE, BACKWARD-COMPAT, LOCKING, BREAKING, or NEEDS TWO-PHASE and demands zero-downtime plans. Use for every PR touching db/migration or db/changelog.",
+      "mode": "primary",
+      "model": "alfagen/Hackathon-2026",
+      "tools": {
+        "read": true,
+        "bash": true,
+        "write": false,
+        "edit": false
+      },
+      "prompt": "{file:prompts/agents/migration-reviewer.txt}"
+    },
+    "integration-reviewer": {
+      "description": "Review agent for Kafka listeners/producers, HTTP clients (RestTemplate/WebClient/Feign), @Async/@Scheduled executors, outbox/saga patterns, and Resilience4j retry/circuit-breaker configuration. Use whenever a PR touches async, messaging, or external I/O.",
+      "mode": "primary",
+      "model": "alfagen/Hackathon-2026",
+      "tools": {
+        "read": true,
+        "bash": true,
+        "write": false,
+        "edit": false
+      },
+      "prompt": "{file:prompts/agents/integration-reviewer.txt}"
+    },
+    "planner": {
+      "description": "Expert planning specialist for complex features and refactoring. Use PROACTIVELY when users request feature implementation, architectural changes, or complex refactoring. Automatically activated for planning tasks.",
+      "mode": "primary",
+      "model": "alfagen/Hackathon-2026",
+      "tools": {
+        "read": true,
+        "bash": false,
+        "write": false,
+        "edit": false
+      },
+      "prompt": "{file:prompts/agents/planner.txt}"
+    }
+  },
+  "command": {
+    "plan": {
+      "description": "Create a detailed implementation plan for complex features",
+      "template": "{file:commands/plan.md}\n\n$ARGUMENTS",
+      "agent": "planner",
+      "subtask": true
+    },
+    "checkpoint": {
+      "description": "Save verification state and progress",
+      "template": "{file:commands/checkpoint.md}\n\n$ARGUMENTS"
+    },
+    "eval": {
+      "description": "Run evaluation against criteria",
+      "template": "{file:commands/eval.md}\n\n$ARGUMENTS"
+    },
+    "backend-java": {
+      "description": "Enterprise Java backend workflow (Spring Boot, APIs, DB, integrations, review-first execution)",
+      "template": "{file:commands/backend-java.md}\n\n$ARGUMENTS"
+    },
+    "review-diff": {
+      "description": "Run java-reviewer on current git diff",
+      "template": "{file:commands/review-diff.md}\n\n$ARGUMENTS",
+      "agent": "java-reviewer",
+      "subtask": true
+    },
+    "migration-check": {
+      "description": "Safety review for Flyway/Liquibase migrations on the current branch",
+      "template": "{file:commands/migration-check.md}\n\n$ARGUMENTS",
+      "agent": "migration-reviewer",
+      "subtask": true
+    },
+    "impact": {
+      "description": "Analyze reverse dependencies of a Gradle module (multi-module impact analysis)",
+      "template": "{file:commands/impact.md}\n\n$ARGUMENTS",
+      "agent": "build"
+    }
+  },
+  "permission": {
+    "mcp_*": "ask"
+  },
+  "provider": {
+    "alfagen": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "AlfaGen",
+      "options": {
+        "baseURL": "https://alfagen.moscow.alfaintra.net/continue-dev",
+        "apiKey": "API_KEY"
+      },
+      "models": {
+        "Hackathon-2026": {
+          "name": "LARGE",
+          "limit": {
+            "context": 200000,
+            "output": 30000
+          }
+        }
+      }
+    }
+  },
+  "mcp": {
+    "github": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "enabled": true
+    },
+    "context7": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@upstash/context7-mcp@2.1.4"
+      ],
+      "enabled": true
+    },
+    "exa": {
+      "type": "remote",
+      "url": "https://mcp.exa.ai/mcp",
+      "enabled": true
+    }
+  }
+}
