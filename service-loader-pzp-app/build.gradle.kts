@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":service-api"))
+    implementation(project(":service-loader-pzp-api"))
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.actuator)

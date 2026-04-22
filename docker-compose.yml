@@ -1,9 +1,9 @@
-name: service-template
+name: service-loader-pzp
 
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: service-template-postgres
+    container_name: service-loader-pzp-postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: service_template
@@ -23,7 +23,7 @@ services:
 
   kafka-1:
     image: apache/kafka:3.8.0
-    container_name: service-template-kafka-1
+    container_name: service-loader-pzp-kafka-1
     restart: unless-stopped
     ports:
       - "9092:19092"
@@ -57,7 +57,7 @@ services:
 
   kafka-2:
     image: apache/kafka:3.8.0
-    container_name: service-template-kafka-2
+    container_name: service-loader-pzp-kafka-2
     restart: unless-stopped
     ports:
       - "9093:19092"
@@ -91,7 +91,7 @@ services:
 
   kafka-3:
     image: apache/kafka:3.8.0
-    container_name: service-template-kafka-3
+    container_name: service-loader-pzp-kafka-3
     restart: unless-stopped
     ports:
       - "9094:19092"

@@ -1,7 +1,6 @@
 ---
 name: java-maven-gradle
 description: Gradle Kotlin DSL for Java backend — plugin block, version catalogs (libs.versions.toml), type-safe project accessors, configuration-avoidance, buildSrc/build-logic convention plugins, composite builds, CI/CD.
-origin: newskill
 ---
 
 # Gradle Kotlin DSL — Java backend build reference

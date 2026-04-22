@@ -5,6 +5,7 @@
   "default_agent": "build",
   "instructions": [
     "../AGENTS.md",
+    "rules/**/*.md",
     "skills/springboot-tdd/SKILL.md",
     "skills/springboot-verification/SKILL.md",
     "skills/api-design/SKILL.md",
@@ -86,6 +87,30 @@
       },
       "prompt": "{file:prompts/agents/integration-reviewer.txt}"
     },
+    "critic": {
+      "description": "Challenge assumptions and probe reasoning using adversarial thinking. Use when asked to find weaknesses, challenge a design, identify edge cases, or stress-test an approach. Read-only — questions and probes only, never provides solutions.",
+      "mode": "primary",
+      "model": "alfagen/Hackathon-2026",
+      "tools": {
+        "read": true,
+        "bash": false,
+        "write": false,
+        "edit": false
+      },
+      "prompt": "{file:prompts/agents/critic.txt}"
+    },
+    "debug": {
+      "description": "Root cause analysis specialist for runtime bugs, test failures, Spring Boot errors, JVM crashes, and distributed system issues. Use PROACTIVELY before attempting to fix a bug. Does NOT fix code — diagnoses only. For Gradle/compile errors use java-build-resolver instead.",
+      "mode": "primary",
+      "model": "alfagen/Hackathon-2026",
+      "tools": {
+        "read": true,
+        "bash": true,
+        "write": false,
+        "edit": false
+      },
+      "prompt": "{file:prompts/agents/debug.txt}"
+    },
     "planner": {
       "description": "Expert planning specialist for complex features and refactoring. Use PROACTIVELY when users request feature implementation, architectural changes, or complex refactoring. Automatically activated for planning tasks.",
       "mode": "primary",
@@ -145,14 +170,14 @@
       "name": "AlfaGen",
       "options": {
         "baseURL": "https://alfagen.moscow.alfaintra.net/continue-dev",
-        "apiKey": "API_KEY"
+        "apiKey": "bb761203-454c-4680-8949-f7fc90a94b7e"
       },
       "models": {
         "Hackathon-2026": {
           "name": "LARGE",
           "limit": {
             "context": 200000,
-            "output": 30000
+            "output": 200000
           }
         }
       }

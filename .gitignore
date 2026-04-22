@@ -33,3 +33,4 @@ liquibase.local.properties
 # Logs
 *.log
 logs/
+.opencode/node_modules

@@ -12,10 +12,10 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "service-template"
+rootProject.name = "service-loader-pzp"
 
 include(
-    "service-api",
-    "service-app",
-    "service-db",
+    "service-loader-pzp-api",
+    "service-loader-pzp-app",
+    "service-loader-pzp-db",
 )

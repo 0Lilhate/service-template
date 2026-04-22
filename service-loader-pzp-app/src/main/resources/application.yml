@@ -1,6 +1,6 @@
 spring:
   application:
-    name: service-template
+    name: service-loader-entry-pzp
   threads:
     virtual:
       enabled: true
